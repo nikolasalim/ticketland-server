@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const db = require("../db");
 
 const Event = db.define("event", {
-  name: {
+  title: {
     type: Sequelize.STRING,
     allowNull: false
   },
@@ -10,7 +10,7 @@ const Event = db.define("event", {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  picture: {
+  image: {
     type: Sequelize.TEXT,
     allowNull: false
   },

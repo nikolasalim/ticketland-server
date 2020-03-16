@@ -5,7 +5,7 @@ const router = new Router();
 
 router.post("/ticket", (req, res, next) => {
   const ticket = {
-    picture: req.body.picture,
+    image: req.body.image,
     price: req.body.price,
     description: req.body.description
   };
