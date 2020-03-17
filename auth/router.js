@@ -30,7 +30,8 @@ router.post("/login", (req, res, next) => {
           });
         } else if (bcrypt.compareSync(req.body.password, entity.password)) {
           res.send({
-            jwt: toJWT({ userId: entity.id })
+            jwt: toJWT({ userId: entity.id }),
+            userId: entity.id
           });
         } else {
           res.status(400).send({

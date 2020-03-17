@@ -15,7 +15,8 @@ router.post("/user", (req, res, next) => {
     .then(user => {
       // res.json(user);
       res.send({
-        jwt: toJWT({ userId: user.id })
+        jwt: toJWT({ userId: user.id }),
+        userId: user.id
       });
     })
     .catch(next);
