@@ -5,20 +5,22 @@ const Ticket = require("../ticket/model");
 
 const router = new Router();
 
+// Reading all comments:
+
 router.get("/comment", (req, res, next) => {
   Comment.findAll({ include: [Ticket] }, { order: [["updatedAt", "DESC"]] })
     .then(comment => res.json(comment))
     .catch(next);
 });
 
+// Posting a comment:
+
 router.post("/comment", auth, (req, res, next) => {
-  console.log("req body is:", req.body);
-  // console.log("req user is:", req.user);
   const comm = {
     comment: req.body.comment,
     whoCommented: req.user.dataValues.username,
-    ticketId: req.body.ticketId, // this will be ticket id
-    userId: req.user.dataValues.id // maybe won't need this
+    ticketId: req.body.ticketId,
+    userId: req.user.dataValues.id
   };
   Comment.create(comm)
     .then(c => res.json(c))

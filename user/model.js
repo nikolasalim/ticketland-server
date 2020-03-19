@@ -32,10 +32,3 @@ Comment.belongsTo(User);
 User.hasMany(Comment);
 
 module.exports = User;
-
-//  Users
-// 	Events – relationship: has user id
-// 	Ticket – relationship: has event id & user id
-// 	Comments – relationship: has user id & ticket id
-
-// 	PS: Use include. Users will include events and tickets, etc.

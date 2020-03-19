@@ -5,6 +5,8 @@ const { toJWT } = require("../auth/jwt");
 
 const router = new Router();
 
+// Creating an user and already sending him a JWT:
+
 router.post("/user", (req, res, next) => {
   const user = {
     username: req.body.username,

@@ -7,15 +7,13 @@ const Ticket = require("../ticket/router");
 
 const router = new Router();
 
-// Reading all events then paginating – max 9 per page
+// Reading all events then paginating – max 9 per page:
 
 router.get("/event", (req, res, next) => {
   const limit = req.query.limit || 9;
   const offset = req.query.offset || 0;
 
   const now = new Date();
-
-  console.log("now is:", now);
 
   Event.findAndCountAll({
     limit,
@@ -35,7 +33,7 @@ router.get("/event", (req, res, next) => {
     .catch(next);
 });
 
-// Reading a specific event
+// Reading a specific event:
 
 router.get("/event/:eventId", (req, res, next) => {
   Event.findByPk(req.params.eventId /* , { include: [User] } */)
@@ -47,7 +45,7 @@ router.get("/event/:eventId", (req, res, next) => {
     .catch(next);
 });
 
-// Creating an event
+// Creating an event:
 
 router.post("/event", auth, (req, res, next) => {
   const event = {
@@ -67,15 +65,6 @@ router.post("/event", auth, (req, res, next) => {
 });
 
 module.exports = router;
-
-// const now = new Date();
-// console.log("now is:", now);
-// console.log("events is:", events);
-// console.log(
-//   "events.rows:",
-//   events.rows.map(event => event.dataValues.end_date)
-// );
-// console.log("is now < end_date?", now < events.end_date);
 
 //////////////////////////////////////////
 
@@ -98,16 +87,3 @@ module.exports = router;
 // };
 
 // console.log("list is:", list);
-
-// Event.findAndCountAll(
-//   /* { order: [["updatedAt", "DESC"]] }, */ { limit, offset }
-// )
-//   .then(events => {
-//     console.log("events is:", events);
-//     events.count === 0
-//       ? res.status(404).send("No movies were found. Try again later.")
-//       : events.rows.slice(startIndex, endIndex);
-//     res.send(events);
-//     // res.send({ list: events.rows, total: events.count });
-//   })
-//   .catch(next);
