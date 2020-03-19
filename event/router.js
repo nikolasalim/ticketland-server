@@ -10,7 +10,7 @@ const router = new Router();
 // Reading all events then paginating – max 9 per page
 
 router.get("/event", (req, res, next) => {
-  const limit = req.query.limit || 2;
+  const limit = req.query.limit || 9;
   const offset = req.query.offset || 0;
 
   const now = new Date();
