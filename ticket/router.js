@@ -12,6 +12,7 @@ router.post("/ticket", auth, (req, res, next) => {
     image: req.body.image,
     price: req.body.price,
     description: req.body.description,
+    author: req.user.dataValues.username,
     eventId: req.body.eventId,
     userId: req.user.dataValues.id
   };
