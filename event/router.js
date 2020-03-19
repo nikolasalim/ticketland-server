@@ -10,70 +10,24 @@ const router = new Router();
 // Reading all events then paginating – max 9 per page
 
 router.get("/event", (req, res, next) => {
-  // const page = parseInt(req.query.page);
   const limit = req.query.limit || 2;
   const offset = req.query.offset || 0;
 
-  // const startIndex = (page - 1) * limit;
-  // const endIndex = page * limit;
-
-  // const startIndex = 0;
-  // const endIndex = 2;
-
-  // const list = {};
-
-  // list.next = {
-  //   page: page + 1,
-  //   limit: limit
-  // };
-
-  // list.previous = {
-  //   page: page - 1,
-  //   limit: limit
-  // };
-
-  // console.log("list is:", list);
-
-  // Event.findAndCountAll(
-  //   /* { order: [["updatedAt", "DESC"]] }, */ { limit, offset }
-  // )
-  //   .then(events => {
-  //     console.log("events is:", events);
-  //     events.count === 0
-  //       ? res.status(404).send("No movies were found. Try again later.")
-  //       : events.rows.slice(startIndex, endIndex);
-  //     res.send(events);
-  //     // res.send({ list: events.rows, total: events.count });
-  //   })
-  //   .catch(next);
-
   const now = new Date();
-  // function test(date) {
-  //   now < date;
-  // }
 
   console.log("now is:", now);
 
-  Event.findAndCountAll(
-    /* { order: [["updatedAt", "DESC"]] }, */ {
-      where: {
-        end_date: {
-          [Op.gte]: now
-        }
+  Event.findAndCountAll({
+    limit,
+    offset,
+    where: {
+      end_date: {
+        [Op.gte]: now
       }
     },
-    { limit, offset }
-  )
+    order: [["updatedAt", "DESC"]]
+  })
     .then(events => {
-      // const now = new Date();
-      // console.log("now is:", now);
-      // console.log("events is:", events);
-      // console.log(
-      //   "events.rows:",
-      //   events.rows.map(event => event.dataValues.end_date)
-      // );
-      // console.log("is now < end_date?", now < events.end_date);
-
       events.count === 0
         ? res.status(404).send("No movies were found. Try again later.")
         : res.send({ list: events.rows, total: events.count });
@@ -113,3 +67,47 @@ router.post("/event", auth, (req, res, next) => {
 });
 
 module.exports = router;
+
+// const now = new Date();
+// console.log("now is:", now);
+// console.log("events is:", events);
+// console.log(
+//   "events.rows:",
+//   events.rows.map(event => event.dataValues.end_date)
+// );
+// console.log("is now < end_date?", now < events.end_date);
+
+//////////////////////////////////////////
+
+// const startIndex = (page - 1) * limit;
+// const endIndex = page * limit;
+
+// const startIndex = 0;
+// const endIndex = 2;
+
+// const list = {};
+
+// list.next = {
+//   page: page + 1,
+//   limit: limit
+// };
+
+// list.previous = {
+//   page: page - 1,
+//   limit: limit
+// };
+
+// console.log("list is:", list);
+
+// Event.findAndCountAll(
+//   /* { order: [["updatedAt", "DESC"]] }, */ { limit, offset }
+// )
+//   .then(events => {
+//     console.log("events is:", events);
+//     events.count === 0
+//       ? res.status(404).send("No movies were found. Try again later.")
+//       : events.rows.slice(startIndex, endIndex);
+//     res.send(events);
+//     // res.send({ list: events.rows, total: events.count });
+//   })
+//   .catch(next);
