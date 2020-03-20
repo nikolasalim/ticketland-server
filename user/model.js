@@ -8,7 +8,8 @@ const Comment = require("../comment/model");
 const User = db.define("user", {
   username: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
   password: {
     type: Sequelize.STRING,
