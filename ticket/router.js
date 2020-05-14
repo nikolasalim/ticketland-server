@@ -3,7 +3,7 @@ const auth = require("../auth/middleware");
 const Ticket = require("./model");
 const Event = require("../event/model");
 const Comment = require("../comment/model");
-
+const riskAlgorithm = require("../ticket/riskAlgorithm");
 const router = new Router();
 
 // Creating a ticket:
@@ -37,20 +37,36 @@ router.get("/ticket", (req, res, next) => {
 
 // Reading a specific ticket:
 
-router.get("/ticket/:ticketId", (req, res, next) => {
-  Ticket.findByPk(req.params.ticketId, {
-    include: [{ model: Event }, { model: Comment }],
-  })
-    .then((ticket) => {
-      // console.log("Ticket is", ticket);
-      console.log(
-        "number of comments is:",
-        ticket.comments.length
-        // ticket.comments.map((comment) => comment.comment)
-      );
-      res.json(ticket);
-    })
-    .catch(next);
+// router.get("/ticket/:ticketId", (req, res, next) => {
+//   Ticket.findByPk(req.params.ticketId, {
+//     include: [{ model: Event }, { model: Comment }],
+//   })
+//     .then((ticket) => {
+//       // console.log("Ticket is", ticket);
+//       console.log(
+//         "number of comments is:",
+//         ticket.comments.length
+//         // ticket.comments.map((comment) => comment.comment)
+//       );
+//       res.json(ticket);
+//     })
+//     .catch(next);
+// });
+
+router.get("/ticket/:ticketId", async (req, res, next) => {
+  try {
+    const ticket = await Ticket.findByPk(req.params.ticketId, {
+      include: [{ model: Event }, { model: Comment }],
+    });
+
+    const allTickets = await Ticket.findAll();
+
+    const ticketUpdated = await riskAlgorithm(allTickets, ticket);
+
+    res.json(ticket);
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Updating a specific ticket:
