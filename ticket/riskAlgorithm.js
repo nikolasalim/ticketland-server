@@ -4,22 +4,8 @@ moment().format();
 module.exports = function riskAlgorithm(allTickets, ticket) {
   const allTicketCreatorsIds = allTickets.map((ticket) => ticket.userId);
   const ticketCreatorId = ticket.userId;
-
-  // if the ticket price is lower than the average ticket price for that event, that's a risk:
-
-  const ticketPrice = ticket.price;
-
-  // let allTicketPrices;
-
-  // if the ticket was added during business hours (9-17), deduct 10% from the risk, if not, add 10% to the risk:
-
   const timeOfTicketCreation = ticket.createdAt;
-
-  // if there are >3 comments on the ticket, add 5% to the risk:
-
   const numberOfComments = ticket.comments.length;
-
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   let risk = 0;
 
@@ -72,10 +58,6 @@ module.exports = function riskAlgorithm(allTickets, ticket) {
 
   // if there are >3 comments on the ticket, add 5% to the risk:
 
-  // const ticketComments = this.props.comments.filter(
-  //   (comment) => comment.ticketId === parseInt(this.props.match.params.ticketId)
-  // );
-
   if (numberOfComments > 3) {
     risk += 5;
   }
@@ -91,24 +73,9 @@ module.exports = function riskAlgorithm(allTickets, ticket) {
   };
 
   const finalRisk = riskLimit(risk, 5, 95);
+  console.log("finalRisk is:", finalRisk);
 
-  console.log("ticket is:", ticket);
   const ticketPlusUpdatedRisk = { ...ticket.dataValues, risk: finalRisk };
-  console.log("ticketPlusUpdatedRisk is:", ticketPlusUpdatedRisk);
 
   return ticketPlusUpdatedRisk;
-
-  // from 5% to 30% = green
-  // from 31% to 50% = yellow
-  // from 51% to 95% = red
-
-  /*   if (finalRisk >= 5 && finalRisk < 31) {
-    return <h3 style={{ color: "green" }}>Risk of fraud: {finalRisk}%</h3>;
-  } else if (finalRisk >= 30 && finalRisk < 51) {
-    return <h3 style={{ color: "yellow" }}>Risk of fraud: {finalRisk}%</h3>;
-  } else {
-    return <h3 style={{ color: "red" }}>Risk of fraud: {finalRisk}%</h3>;
-  } */
 };
-
-// riskAlgorithm();

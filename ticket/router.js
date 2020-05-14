@@ -63,14 +63,13 @@ router.get("/ticket/:ticketId", async (req, res, next) => {
 
     const ticketUpdated = await riskAlgorithm(allTickets, ticket);
 
-    res.json(ticket);
+    res.json(ticketUpdated);
   } catch (error) {
     next(error);
   }
 });
 
 // Updating a specific ticket:
-/// add middleware
 
 router.put("/ticket/:ticketId", (req, res, next) => {
   Ticket.findByPk(req.params.ticketId)
