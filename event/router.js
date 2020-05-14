@@ -20,14 +20,14 @@ router.get("/event", (req, res, next) => {
     offset,
     where: {
       end_date: {
-        [Op.gte]: now
-      }
+        [Op.gte]: now,
+      },
     },
-    order: [["updatedAt", "DESC"]]
+    order: [["updatedAt", "DESC"]],
   })
-    .then(events => {
+    .then((events) => {
       events.count === 0
-        ? res.status(404).send("No movies were found. Try again later.")
+        ? res.status(404).send("No events were found. Try again later.")
         : res.send({ list: events.rows, total: events.count });
     })
     .catch(next);
@@ -37,7 +37,7 @@ router.get("/event", (req, res, next) => {
 
 router.get("/event/:eventId", (req, res, next) => {
   Event.findByPk(req.params.eventId /* , { include: [User] } */)
-    .then(event => {
+    .then((event) => {
       !event
         ? res.status(404).send("Event not found. Please, try again.")
         : res.json(event);
@@ -54,11 +54,11 @@ router.post("/event", auth, (req, res, next) => {
     image: req.body.image,
     start_date: req.body.start_date,
     end_date: req.body.end_date,
-    userId: req.user.dataValues.id
+    userId: req.user.dataValues.id,
   };
 
   Event.create(event)
-    .then(event => {
+    .then((event) => {
       res.json(event);
     })
     .catch(next);

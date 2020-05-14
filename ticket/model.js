@@ -4,20 +4,24 @@ const db = require("../db");
 const Ticket = db.define("ticket", {
   image: {
     type: Sequelize.TEXT,
-    allowNull: true
+    allowNull: true,
   },
   price: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   description: {
     type: Sequelize.TEXT,
-    allowNull: false
+    allowNull: false,
   },
   author: {
     type: Sequelize.STRING,
-    allowNull: false
-  }
+    allowNull: false,
+  },
+  risk: {
+    type: Sequelize.INTEGER,
+    // allowNull: false,
+  },
 });
 
 module.exports = Ticket;

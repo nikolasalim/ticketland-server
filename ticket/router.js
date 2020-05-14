@@ -2,6 +2,7 @@ const { Router } = require("express");
 const auth = require("../auth/middleware");
 const Ticket = require("./model");
 const Event = require("../event/model");
+const Comment = require("../comment/model");
 
 const router = new Router();
 
@@ -14,11 +15,11 @@ router.post("/ticket", auth, (req, res, next) => {
     description: req.body.description,
     author: req.user.dataValues.username,
     eventId: req.body.eventId,
-    userId: req.user.dataValues.id
+    userId: req.user.dataValues.id,
   };
 
   Ticket.create(ticket)
-    .then(ticket => {
+    .then((ticket) => {
       res.json(ticket);
     })
     .catch(next);
@@ -28,7 +29,7 @@ router.post("/ticket", auth, (req, res, next) => {
 
 router.get("/ticket", (req, res, next) => {
   Ticket.findAll({ include: [Event] })
-    .then(tickets => {
+    .then((tickets) => {
       res.json(tickets);
     })
     .catch(next);
@@ -37,19 +38,28 @@ router.get("/ticket", (req, res, next) => {
 // Reading a specific ticket:
 
 router.get("/ticket/:ticketId", (req, res, next) => {
-  Ticket.findByPk(req.params.ticketId, { include: [Event] })
-    .then(event => {
-      res.json(event);
+  Ticket.findByPk(req.params.ticketId, {
+    include: [{ model: Event }, { model: Comment }],
+  })
+    .then((ticket) => {
+      // console.log("Ticket is", ticket);
+      console.log(
+        "number of comments is:",
+        ticket.comments.length
+        // ticket.comments.map((comment) => comment.comment)
+      );
+      res.json(ticket);
     })
     .catch(next);
 });
 
 // Updating a specific ticket:
+/// add middleware
 
 router.put("/ticket/:ticketId", (req, res, next) => {
   Ticket.findByPk(req.params.ticketId)
-    .then(ticket => ticket.update(req.body))
-    .then(ticket => res.json(ticket))
+    .then((ticket) => ticket.update(req.body))
+    .then((ticket) => res.json(ticket))
     .catch(next);
 });
 
