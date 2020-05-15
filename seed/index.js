@@ -13,8 +13,8 @@ async function seedEventsAndTickets() {
     description: "This is the description for event one",
     image:
       "https://www.holland.com/upload_mm/8/7/1/20266_fullimage_nicholas-vos-ukorjbn_pza-unsplash-1360.jpg",
-    start_date: "2016-08-09",
-    end_date: "2016-09-10",
+    start_date: "2020-08-09",
+    end_date: "2020-09-10",
   });
 
   const event2 = await Event.create({
@@ -22,8 +22,8 @@ async function seedEventsAndTickets() {
     description: "This is the description for event two",
     image:
       "https://www.kegcoach.nl/_WORDPRESS/wp-content/uploads/2016/09/events.jpg",
-    start_date: "2016-08-09",
-    end_date: "2016-09-10",
+    start_date: "2020-08-09",
+    end_date: "2020-09-10",
   });
 
   const ticket1 = await Ticket.create({
